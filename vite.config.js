@@ -8,13 +8,25 @@ export default defineConfig({
     rollupOptions: {
       external: ['@rollup/rollup-linux-x64-gnu'],
       output: {
-        manualChunks: undefined
+        manualChunks: undefined,
+        format: 'es',
+        entryFileNames: 'assets/[name].[hash].js',
+        chunkFileNames: 'assets/[name].[hash].js',
+        assetFileNames: 'assets/[name].[hash].[ext]'
       }
     },
     target: 'esnext',
-    minify: 'esbuild'
+    minify: 'esbuild',
+    modulePreload: {
+      polyfill: true
+    }
   },
   optimizeDeps: {
     exclude: ['@rollup/rollup-linux-x64-gnu']
+  },
+  server: {
+    headers: {
+      'Content-Type': 'application/javascript'
+    }
   }
 })
